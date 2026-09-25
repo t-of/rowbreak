@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "ROWBREAK — 置いて消す 8×8 ブロック",
+  "short_name": "ROWBREAK",
+  "description": "8×8 の盤に、下に出る 3 つのブロックを好きな順に置き、縦か横の列をうめて消していく。今日の盤は全員に同じ順番でブロックが配られるので、同じ条件でスコアを比べられる。",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#12141a",
+  "theme_color": "#12141a",
+  "lang": "ja",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
