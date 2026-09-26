@@ -7,3 +7,5 @@ node_modules
 tests
 wrangler.jsonc
 README.md
+tools
+CLAUDE.md
