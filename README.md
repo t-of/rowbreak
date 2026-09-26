@@ -4,7 +4,7 @@
 
 ## 🔗 リンク
 
-- 遊ぶ: https://t-of.github.io/rowbreak/
+- 遊ぶ: https://rowbreak.t-of.workers.dev/
 - 制作: [T.OF...](https://t-of.github.io/)
 
 ## 遊び方

@@ -1,6 +1,6 @@
 # ROWBREAK
 
-T.OF... のアプリ。https://t-of.github.io/rowbreak/
+T.OF... のアプリ。https://rowbreak.t-of.workers.dev/
 
 - ルールは本部の `~/GitHub/tof/t-of.github.io/RULES.md` に従う（全アプリ共通）。ブランドは `docs/BRAND.md`。
 - 直したら本部で `npm run audit:browser -- rowbreak` を通す。
