@@ -34,8 +34,8 @@ function adBreak(_kind) {}
 
 const T = {
   ja: {
-    title: 'ROWBREAK — 置いて消す 8×8 ブロック',
-    about: '8×8 の盤に、下に出る 3 つのブロックを好きな順に置き、縦か横の列をうめて消していく。今日の盤は全員に同じ順番でブロックが配られるので、同じ条件でスコアを比べられる。',
+    title: 'ROWBREAK — ブロックパズル：置いて消す8×8',
+    about: 'ブロックパズル ROWBREAK。8×8 の盤に、下に出る 3 つのブロックを好きな順に置き、縦か横の列をうめて消していく。今日の盤は全員に同じ順番でブロックが配られるので、同じ条件でスコアを比べられる。',
     'mode.daily': '今日の盤', 'mode.endless': 'エンドレス',
     'sound.on': '音 オン', 'sound.off': '音 オフ',
     lang: '日本語',
@@ -57,8 +57,8 @@ const T = {
     'share.best': '自己ベスト！',
   },
   en: {
-    title: 'ROWBREAK — Place, fill, break',
-    about: 'Drop three blocks at a time onto an 8×8 board and fill rows or columns to break them. The Daily board deals everyone the same blocks in the same order, so scores are directly comparable.',
+    title: 'ROWBREAK — Block Puzzle: Place, Fill, Break (8x8)',
+    about: 'Block Puzzle ROWBREAK. Drop three blocks at a time onto an 8×8 board and fill rows or columns to break them. The Daily board deals everyone the same blocks in the same order, so scores are directly comparable.',
     'mode.daily': 'Daily', 'mode.endless': 'Endless',
     'sound.on': 'Sound on', 'sound.off': 'Sound off',
     lang: 'English',
