@@ -56,12 +56,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 /* ---- 上の帯 ---- */
 .bar { width: var(--board); display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.modes { display: flex; background: var(--panel); border-radius: 999px; padding: 3px; }
-.seg {
-  border: 0; background: none; border-radius: 999px;
-  min-height: 38px; padding: 0 12px; font-size: 13px; color: var(--muted);
-}
-.seg[aria-pressed="true"] { background: #262a31; color: var(--fg); }
 .bar__actions { display: flex; gap: 6px; }
 .pill {
   border: 1px solid var(--line);
@@ -153,21 +147,51 @@ button { font: inherit; color: inherit; cursor: pointer; }
   100% { opacity: 0; transform: translate(-50%, -110%); }
 }
 
-/* はじめての説明（盤の上に 1 回だけ） */
-.coach {
-  width: var(--board);
-  height: var(--board);
+/* ---- ホーム ---- */
+.screen.home {
+  height: 100dvh;
+  max-width: 420px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 18px;
-  padding: 24px;
-  border-radius: 12px;
-  background: rgba(18, 20, 26, 0.92);
-  z-index: 2;
+  gap: 16px;
+  padding:
+    max(20px, env(safe-area-inset-top))
+    max(16px, env(safe-area-inset-right))
+    max(14px, env(safe-area-inset-bottom))
+    max(16px, env(safe-area-inset-left));
+  overflow-y: auto;
 }
-.coach ol { margin: 0; padding-left: 1.3em; display: grid; gap: 12px; font-size: 14px; line-height: 1.5; }
-.coach .btn { align-self: center; }
+.home__head { text-align: center; padding-top: 8px; }
+.home__name { margin: 0 0 4px; font-size: 32px; letter-spacing: 0.06em; color: var(--accent); }
+.home__catch { margin: 0; color: var(--muted); font-size: 14px; }
+.home__modes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.home__card {
+  min-height: 72px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px;
+}
+.home__card-name { font-size: 16px; font-weight: 700; }
+.home__card-sub { font-size: 12px; color: var(--muted); }
+.home .howto { margin: 0; padding-left: 1.2em; font-size: 14px; line-height: 1.6; color: var(--muted); }
+.home .howto li + li { margin-top: 6px; }
+.home__foot {
+  margin-top: auto;
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  padding-top: 8px;
+}
+.credit { margin: 0; font-size: 12px; color: var(--muted); opacity: 0.7; }
+.credit a { color: inherit; }
+.bar__mode { font-size: 14px; font-weight: 700; color: var(--muted); }
 
 /* ---- 手札 ---- */
 .hand {

@@ -31,12 +31,46 @@
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <main class="app" id="app">
-    <header class="bar">
-      <div class="modes" role="group">
-        <button class="seg" data-mode="daily" data-t="mode.daily">今日の盤</button>
-        <button class="seg" data-mode="endless" data-t="mode.endless">エンドレス</button>
+  <!-- ホーム -->
+  <main class="screen home" id="home">
+    <header class="home__head">
+      <h1 class="home__name">ROWBREAK</h1>
+      <p class="home__catch" data-t="home.catch">毎日の盤と、自由に続けるエンドレス</p>
+    </header>
+
+    <button class="btn btn--main btn--wide" id="continueBtn" data-t="home.continue" hidden>つづきから</button>
+
+    <div class="home__modes">
+      <button class="home__card" id="homeDaily" type="button">
+        <span class="home__card-name" data-t="mode.daily">今日の盤</span>
+        <span class="home__card-sub" id="homeDailySub"></span>
+      </button>
+      <button class="home__card" id="homeEndless" type="button">
+        <span class="home__card-name" data-t="mode.endless">エンドレス</span>
+        <span class="home__card-sub" id="homeEndlessSub"></span>
+      </button>
+    </div>
+
+    <ol class="howto">
+      <li data-t="coach.1">下のブロックを指で盤へ運んで置く。回せない</li>
+      <li data-t="coach.2">縦か横の 1 列がうまると消える。何列もまとめて消すほど高い点</li>
+      <li data-t="coach.3">どれも置けなくなったら終わり</li>
+    </ol>
+
+    <footer class="home__foot">
+      <div class="foot__actions">
+        <button class="pill" id="langHome">English</button>
+        <button class="pill" data-wak="install" data-t="install" hidden>アプリにする</button>
+        <button class="pill" data-wak="share" data-t="share">共有</button>
       </div>
+      <p class="credit"><a href="https://t-of.github.io/" data-t="credit">T.OF... のアプリ</a>・<a href="https://t-of.github.io/contact/" data-t="contact" target="_blank" rel="noopener">問い合わせ</a></p>
+    </footer>
+  </main>
+
+  <main class="app" id="app" hidden>
+    <header class="bar">
+      <button class="pill" id="homeBtn" data-t="home.back">ホーム</button>
+      <span class="bar__mode" id="modeLabel"></span>
       <div class="bar__actions">
         <button class="pill" id="lang">English</button>
         <button class="pill" id="sound" aria-pressed="true">音 オン</button>
@@ -51,14 +85,6 @@
     <section class="stage" id="stage">
       <div class="board" id="board"></div>
       <div class="fx" id="fx"></div>
-      <div class="coach" id="coach" hidden>
-        <ol>
-          <li data-t="coach.1">下のブロックを指で盤へ運んで置く。回せない</li>
-          <li data-t="coach.2">縦か横の 1 列がうまると消える。何列もまとめて消すほど高い点</li>
-          <li data-t="coach.3">どれも置けなくなったら終わり</li>
-        </ol>
-        <button class="btn btn--main" id="coachOk" data-t="coach.ok">はじめる</button>
-      </div>
     </section>
 
     <section class="hand" id="hand">

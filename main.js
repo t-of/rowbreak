@@ -44,7 +44,6 @@ const T = {
     'coach.1': '下のブロックを指で盤へ運んで置く。回せない',
     'coach.2': '縦か横の 1 列がうまると消える。何列もまとめて消すほど高い点',
     'coach.3': 'どれも置けなくなったら終わり',
-    'coach.ok': 'はじめる',
     'pop.lines': '{n} 列', 'pop.streak': '連続 {n}', 'pop.clear': '全部消し',
     'over.title': 'もう置けない',
     'result.score': '{n} 点', 'result.lines': '{n} 列', 'result.best': '自己ベスト', 'result.days': '{n} 日連続',
@@ -55,6 +54,10 @@ const T = {
     'share.daily': 'ROWBREAK 今日の盤 {date}\n{score} 点・{lines} 列',
     'share.endless': 'ROWBREAK で {score} 点（{lines} 列）',
     'share.best': '自己ベスト！',
+    'home.catch': '毎日の盤と、自由に続けるエンドレス',
+    'home.continue': 'つづきから',
+    'home.playToday': 'あそぶ',
+    'home.back': 'ホーム',
   },
   en: {
     title: 'ROWBREAK — Block Puzzle: Place, Fill, Break (8x8)',
@@ -67,7 +70,6 @@ const T = {
     'coach.1': 'Drag a block onto the board. No rotating.',
     'coach.2': 'Fill a row or column to break it. Break several at once for more.',
     'coach.3': 'The game ends when nothing fits.',
-    'coach.ok': 'Start',
     'pop.lines': '{n} lines', 'pop.streak': 'Streak {n}', 'pop.clear': 'Board clear',
     'over.title': 'No room left',
     'result.score': '{n} pts', 'result.lines': '{n} lines', 'result.best': 'New best', 'result.days': '{n}-day streak',
@@ -78,6 +80,10 @@ const T = {
     'share.daily': 'ROWBREAK Daily {date}\n{score} pts · {lines} lines',
     'share.endless': 'Scored {score} on ROWBREAK ({lines} lines)',
     'share.best': 'New best!',
+    'home.catch': 'A daily board, and an endless one to keep going',
+    'home.continue': 'Continue',
+    'home.playToday': 'Play',
+    'home.back': 'Home',
   },
 };
 
@@ -144,7 +150,7 @@ const sfx = (() => {
 // ---------- 画面の部品 ----------
 
 const $ = (s) => document.querySelector(s);
-const app = $('#app'), boardEl = $('#board'), fxEl = $('#fx'), floatEl = $('#float'), coachEl = $('#coach');
+const app = $('#app'), homeEl = $('#home'), boardEl = $('#board'), fxEl = $('#fx'), floatEl = $('#float');
 const slots = [...document.querySelectorAll('.slot')];
 const resultEl = $('#result');
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -243,7 +249,7 @@ function renderTop() {
   $('#sub').textContent = settings.mode === 'daily'
     ? t('daily.label', { date: L.shortDate(daily.current.date) })
     : t('best', { n: num(stats.best) });
-  document.querySelectorAll('.seg').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === settings.mode)));
+  $('#modeLabel').textContent = t(settings.mode === 'daily' ? 'mode.daily' : 'mode.endless');
 }
 
 function renderAll() {
@@ -299,7 +305,6 @@ $('#hand').addEventListener('pointerdown', (e) => {
   const id = game.hand[k];
   if (id == null) return;
   e.preventDefault();
-  if (!coachEl.hidden) closeCoach();
   sfx.lift();
   const rect = boardEl.getBoundingClientRect();
   const cell = rect.width / 8;
@@ -450,11 +455,33 @@ function setMode(mode) {
   renderAll();
 }
 
-document.querySelectorAll('.seg').forEach((b) => b.addEventListener('click', () => {
-  if (drag || b.dataset.mode === settings.mode) return;
-  sfx.click();
-  setMode(b.dataset.mode);
-}));
+// ---------- ホーム ----------
+// 開いたらまずここを出す（RULES.md §5）。モードを選ぶとその盤へ入る。
+
+function renderHome() {
+  today = L.dateKey();
+  const rec = daily.days[today];
+  $('#homeDailySub').textContent = rec ? t('result.score', { n: num(rec.score) }) : t('home.playToday');
+  $('#homeEndlessSub').textContent = t('best', { n: num(stats.best) });
+  $('#continueBtn').hidden = !(game && !game.over && game.score > 0);
+}
+
+function showHome() {
+  homeEl.hidden = false;
+  app.hidden = true;
+  renderHome();
+}
+
+function showPlay() {
+  homeEl.hidden = true;
+  app.hidden = false;
+  renderAll();
+}
+
+$('#continueBtn').addEventListener('click', () => { sfx.click(); showPlay(); });
+$('#homeDaily').addEventListener('click', () => { sfx.click(); setMode('daily'); showPlay(); });
+$('#homeEndless').addEventListener('click', () => { sfx.click(); setMode('endless'); showPlay(); });
+$('#homeBtn').addEventListener('click', () => { sfx.click(); showHome(); });
 
 $('#again').addEventListener('click', () => {
   sfx.click();
@@ -493,32 +520,31 @@ function applyLang() {
   document.title = t('title');
   WebAppKit.init({ lang, title: 'ROWBREAK', text: t('about') });
   document.querySelectorAll('[data-t]').forEach((el) => { el.textContent = t(el.dataset.t); });
-  $('#lang').textContent = T[lang === 'ja' ? 'en' : 'ja'].lang;   // 押すと変わる先の言葉を見せる
+  const nextLangLabel = T[lang === 'ja' ? 'en' : 'ja'].lang;   // 押すと変わる先の言葉を見せる
+  $('#lang').textContent = nextLangLabel;
+  $('#langHome').textContent = nextLangLabel;
   renderSound();
   if (game) {
     renderTop();
     if (!resultEl.hidden) showResult(resultFresh);
   }
+  if (!homeEl.hidden) renderHome();
 }
-$('#lang').addEventListener('click', () => {
+function toggleLang() {
   lang = lang === 'ja' ? 'en' : 'ja';
   settings.lang = lang;
   saveSettings();
   sfx.click();
   applyLang();
-});
-
-function closeCoach() {
-  coachEl.hidden = true;
-  settings.coached = true;
-  saveSettings();
 }
-$('#coachOk').addEventListener('click', () => { sfx.click(); closeCoach(); });
+$('#lang').addEventListener('click', toggleLang);
+$('#langHome').addEventListener('click', toggleLang);
 
 // 日付が変わったら今日の盤を入れ替え、「次の盤まで」を更新する
 function tick() {
-  if (settings.mode !== 'daily' || drag) return;
-  if (L.dateKey() !== today) setMode('daily');
+  if (drag) return;
+  if (settings.mode === 'daily' && L.dateKey() !== today) setMode('daily');
+  if (!homeEl.hidden) renderHome();
   else if (!resultEl.hidden) $('#rNote').textContent = t('result.next', L.untilTomorrow());
 }
 document.addEventListener('visibilitychange', () => { if (!document.hidden) tick(); });
@@ -529,4 +555,4 @@ setInterval(tick, 30000);
 setAudioSession(settings.sound);
 applyLang();
 setMode(settings.mode);
-coachEl.hidden = settings.coached;
+showHome();
